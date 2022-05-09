@@ -1,0 +1,34 @@
+#pragma once 
+
+#include <fstream>
+#include <chrono>
+#include <TLine.h>
+#include <iostream>
+#include <list>
+#include <algorithm>
+#include <unistd.h>
+#include <stdio.h>
+
+#include "TApplication.h"
+#include "TSpectrum.h"
+#include "TGraphErrors.h"
+#include "TGraphSmooth.h"
+#include "TSpline.h"
+#include "TH2F.h"
+#include "TH3F.h"
+#include "TH1F.h"
+#include "TF1.h"
+#include "TButton.h"
+#include "TMath.h"
+#include "TCanvas.h"
+#include "TROOT.h"
+#include "TStyle.h"
+#include "TSystem.h"
+#include "TApplication.h"
+#include "TAxis.h"
+#include "TMarker.h"
+#include "TRandom.h"
+#include "TMath.h"
+#include "math.h"
+#include "TH2.h"
+#include "TStyle.h"
