@@ -40,11 +40,13 @@ const int sideNo = 2;
 const int singleCrystal = 2; //set as negative integer to disable
 const int singleSide = 1;
 
-TString inFileFormat = "lysoData/data2/cry%d_sd%d_pos%d.root";
-TString outFileFormat = "lysoData/data3/cry%d_sd%d.root";
+TString inFileFormat = "lysoData/data2/gap_cry%d_sd%d_pos%d.root";
+TString outFileFormat = "lysoData/data3/gap_cry%d_sd%d.root";
+// TString inFileFormat = "lysoData/data2/cry%d_sd%d_pos%d.root";
+// TString outFileFormat = "lysoData/data3/cry%d_sd%d.root";
 TString outAllFileFormat = "lysoData/data3/cryAll.root";
-TString treeName = "crytree";
 
+const TString treeName = "crytree";
 const TString tiDiffStr = "0.5*wTime[1] + 0.5*wTime[2] - wTime[0]";
 const TString tiMeanStr = "0.5*wTime[1] + 0.5*wTime[2]";
 const TString meanChaStr = "0.5*wCharge[1] + 0.5*wCharge[2]";
@@ -103,6 +105,7 @@ int fitChargeGausStandard(TH1 *hist, double& peak, double &peakErr, double &sigm
     sigma = gaus.GetParameter(2);
     peakErr = gaus.GetParError(1);
     sigmaErr = gaus.GetParError(2); 
+    gaus.SetRange(peak - sigmaToFit*sigma, peak + sigmaToFit*sigma); 
     
     return 1;
 }
@@ -210,7 +213,7 @@ void Process() {
             
             thisRes = &(resCry[_cry][_side]);
 
-            cout<<"-----> Creating  "<<Form(outFileFormat, _cry)<<endl;
+            cout<<"-----> Creating  "<<Form(outFileFormat, _cry, _side)<<endl;
             TFile* outFile = new TFile(Form(outFileFormat, _cry, _side), "RECREATE"); 
             
             HistManager *HM = new HistManager();
@@ -269,13 +272,15 @@ void Process() {
                 TH1F *tagChTmp = (TH1F*)HM->GetHist("chargeTag", _pos);
                 TH1F *tiDiTmp = (TH1F*)HM->GetHist("timeDiffCut", _pos);
 
+                double sigmaCharge = 1.8;
+                double sigmaTime = 2.4;
+
                 double minq_ = tagChTmp->GetXaxis()->GetXmin(), maxq_ = tagChTmp->GetXaxis()->GetXmax();
                 tagChTmp->GetXaxis()->SetRangeUser(800, 1400);
                 double qPeak, qPeakErr, qSigma, qSigmaErr;
-                fitChargeGausStandard(tagChTmp, qPeak, qPeakErr, qSigma, qSigmaErr, 1.8, "");
+                fitChargeGausStandard(tagChTmp, qPeak, qPeakErr, qSigma, qSigmaErr, sigmaCharge, "");
                 tagChTmp->GetXaxis()->SetRangeUser(minq_, maxq_);
 
-                double sigmaCharge = 2.5;
                 double cutqmin = qPeak - sigmaCharge*qSigma, cutqmax = qPeak + sigmaCharge*qSigma;
                 TString selCut = Form("wCharge[0] > %f && wCharge[0] < %f", cutqmin, cutqmax);
                 double qminboth = 550;
@@ -288,12 +293,10 @@ void Process() {
                 double mint_ = tiDiTmp->GetXaxis()->GetXmin(), maxt_ = tiDiTmp->GetXaxis()->GetXmax();
                 tiDiTmp->GetXaxis()->SetRangeUser(10, 35);
                 double tpeak, tepeak, tsigma, tesigma;
-                fitChargeGausStandard(tiDiTmp, tpeak, tepeak, tsigma, tesigma, 2.0, "");
+                fitChargeGausStandard(tiDiTmp, tpeak, tepeak, tsigma, tesigma, sigmaTime, "");
                 tiDiTmp->GetXaxis()->SetRangeUser(mint_, maxt_);
                 
-                double sigmaTime = 2;
                 double cuttmin = tpeak - sigmaTime*tsigma, cuttmax = tpeak + sigmaTime*tsigma;
-
                 selCut = Form( "%s && %s > %f && %s < %f", selCut.Data(), tiDiffStr.Data(), cuttmin, tiDiffStr.Data(), cuttmax);
                 cout<<"----> cut: "<<selCut<<endl;
 
@@ -333,7 +336,7 @@ void Process() {
 
     } //for cry
 
-    //if (!(singleCrystal<0)) { return; }
+    if (!(singleCrystal<0)) { return; }
 
     TFile* outAllFile = new TFile(outAllFileFormat, "RECREATE"); 
     outAllFile->cd();

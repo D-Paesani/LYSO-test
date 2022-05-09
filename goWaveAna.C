@@ -8,6 +8,8 @@ using namespace std;
 #include "waveAnaHelper.h"
 #include "waveAnaIncludes.h"
 
+// TString inFileFormat = "lysoData/data1/Lyso%d_s%d_gap_May2022/Lyso%d_s%d_gap_May2022__pos%dfull.root";
+// TString outFileFormat = "lysoData/data2/gap_cry%d_sd%d_pos%d.root";
 TString inFileFormat = "lysoData/data1/Lyso%d_s%d_May2022/Lyso%d_s%d_May2022__pos%dfull.root";
 TString outFileFormat = "lysoData/data2/cry%d_sd%d_pos%d.root";
 
