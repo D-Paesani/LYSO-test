@@ -127,8 +127,8 @@ void waveAna::Loop() {
                TMarker tp = TMarker(timeTmp, waveSp.Eval(timeTmp), 2); tp.SetMarkerSize(3); tp.SetMarkerColor(kRed); tp.Draw("same"); 
                TLine t0 = TLine(baseStart*digiTime, 0, baseStart*digiTime, peakTmp);  t0.SetLineColor(kPink); t0.Draw("same");
                TLine t1 = TLine(baseStop*digiTime, 0, baseStop*digiTime, peakTmp);  t1.SetLineColor(kPink); t1.Draw("same");
-               TLine t2 = TLine(chargeStart[iCh]*digiTime, 0, chargeStart[iCh]*digiTime, peakTmp);  t2.SetLineColor(kGreen); t2.Draw("same");
-               TLine t3 = TLine(chargeStop[iCh]*digiTime, 0, chargeStop[iCh]*digiTime, peakTmp);  t2.SetLineColor(kGreen); t2.Draw("same");
+               TLine t2 = TLine(chargeStart[iCh]*digiTime, 0, chargeStart[iCh]*digiTime, peakTmp);  t2.SetLineColor(kBlue); t2.Draw("same");
+               TLine t3 = TLine(chargeStop[iCh]*digiTime, 0, chargeStop[iCh]*digiTime, peakTmp);  t2.SetLineColor(kBlue); t2.Draw("same");
                TLine t4 = TLine(0, peakTmp, peakTimeTmp, peakTmp);  t4.SetLineColor(kPink); t4.Draw("same");
                TLine t5 = TLine(tmin, 0, tmin, peakTmp);  t5.SetLineColor(kGreen); t5.Draw("same");
                TLine t6 = TLine(tmax, 0, tmax, peakTmp);  t6.SetLineColor(kGreen); t6.Draw("same");

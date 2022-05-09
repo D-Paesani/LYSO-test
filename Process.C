@@ -33,12 +33,12 @@
 
 using namespace std;
 
-const int posNo = 5;
+const int posNo = 6;
 const int cryNo = 4;
 const int chNo = 3;
 const int sideNo = 2;
 const int singleCrystal = 2; //set as negative integer to disable
-const int singleSide = 0;
+const int singleSide = 1;
 
 TString inFileFormat = "lysoData/data2/cry%d_sd%d_pos%d.root";
 TString outFileFormat = "lysoData/data3/cry%d_sd%d.root";
@@ -133,7 +133,7 @@ void procCharges(TH1* histObj, int histN, int& histSkipFlag) {
     histObj->GetXaxis()->SetRangeUser(500, 2000);
 
     double peak, epeak, sigma, esigma;
-    fitChargeGausStandard(histObj, peak, epeak, sigma, esigma, 2.5, "");
+    fitChargeGausStandard(histObj, peak, epeak, sigma, esigma, 2.0, "");
     histObj->GetXaxis()->SetRangeUser(min_tmp, max_tmp);
 
     double resolution = sigma/peak;
@@ -272,7 +272,7 @@ void Process() {
                 double minq_ = tagChTmp->GetXaxis()->GetXmin(), maxq_ = tagChTmp->GetXaxis()->GetXmax();
                 tagChTmp->GetXaxis()->SetRangeUser(800, 1400);
                 double qPeak, qPeakErr, qSigma, qSigmaErr;
-                fitChargeGausStandard(tagChTmp, qPeak, qPeakErr, qSigma, qSigmaErr, 2.0, "");
+                fitChargeGausStandard(tagChTmp, qPeak, qPeakErr, qSigma, qSigmaErr, 1.8, "");
                 tagChTmp->GetXaxis()->SetRangeUser(minq_, maxq_);
 
                 double sigmaCharge = 2.5;
@@ -288,7 +288,7 @@ void Process() {
                 double mint_ = tiDiTmp->GetXaxis()->GetXmin(), maxt_ = tiDiTmp->GetXaxis()->GetXmax();
                 tiDiTmp->GetXaxis()->SetRangeUser(10, 35);
                 double tpeak, tepeak, tsigma, tesigma;
-                fitChargeGausStandard(tiDiTmp, tpeak, tepeak, tsigma, tesigma, 2.4, "");
+                fitChargeGausStandard(tiDiTmp, tpeak, tepeak, tsigma, tesigma, 2.0, "");
                 tiDiTmp->GetXaxis()->SetRangeUser(mint_, maxt_);
                 
                 double sigmaTime = 2;
